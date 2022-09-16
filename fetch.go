@@ -12,7 +12,7 @@ import (
 func main() {
 	for _, url := range os.Args[1:] {
 
-		var pref string
+		var pref, answer string
 		if !strings.HasPrefix(url, "http://") {
 			pref = "http://"
 			url = pref + url
@@ -21,6 +21,12 @@ func main() {
 		}
 		fmt.Println("Sending request ...")
 		resp, err := http.Get(url)
+
+		if resp.StatusCode == 200 {
+			answer = "OK"
+		}
+
+		fmt.Println("The response code is : ", resp.StatusCode, answer)
 
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
